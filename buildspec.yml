@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "=== INSTALL PHASE ==="
+      - node --version
+      - npm --version
+
+  pre_build:
+    commands:
+      - echo "=== PRE BUILD PHASE ==="
+      - echo "Checking files..."
+      - ls -la
+
+  build:
+    commands:
+      - echo "=== BUILD PHASE ==="
+      - node app.js
+      - echo "Build completed at $(date)"
+
+  post_build:
+    commands:
+      - echo "=== POST BUILD PHASE ==="
+      - echo "All done!"
+
+artifacts:
+  files:
+    - '**/*'
