@@ -13,15 +13,13 @@ phases:
   build:
     commands:
       - echo "=== BUILD PHASE ==="
-      - echo "Syncing to S3..."
-      - aws s3 sync . s3://cicd-test-website-sagar --delete --exclude ".git/*" --exclude "buildspec.yml" --exclude "app.js"
-      - echo "Done!"
+      - echo "Deploying to S3..."
 
   post_build:
     commands:
       - echo "=== POST BUILD PHASE ==="
-      - echo "Setting content type for HTML..."
-      - aws s3 cp s3://cicd-test-website-sagar/index.html s3://cicd-test-website-sagar/index.html --metadata-directive REPLACE --content-type "text/html" --cache-control "no-cache"
+      - echo "Syncing to S3..."
+      - aws s3 sync . s3://cicd-test-website-sagar --delete --exclude ".git/*" --exclude "buildspec.yml"
       - echo "Deploy complete!"
 
 artifacts:
