@@ -2,29 +2,25 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 18
     commands:
       - echo "=== INSTALL PHASE ==="
-      - node --version
-      - npm --version
 
   pre_build:
     commands:
       - echo "=== PRE BUILD PHASE ==="
-      - echo "Checking files..."
       - ls -la
 
   build:
     commands:
       - echo "=== BUILD PHASE ==="
-      - node app.js
-      - echo "Build completed at $(date)"
+      - echo "Deploying to S3..."
 
   post_build:
     commands:
       - echo "=== POST BUILD PHASE ==="
-      - echo "All done!"
+      - echo "Syncing to S3..."
+      - aws s3 sync . s3://cicd-test-website-sagar --delete --exclude ".git/*" --exclude "buildspec.yml"
+      - echo "Deploy complete!"
 
 artifacts:
   files:
